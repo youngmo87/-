@@ -3,20 +3,20 @@
 2. 표준화 방안 분석
 3. 표준화 체계 및 적용 방안을 정립.
 
-1. 표준화 대상 도출 및 정의
+#1. 표준화 대상 도출 및 정의
 1단계 에서는 Mysql과 오라클을 담당했던 실무자들의 인터뷰를 통해 각각의 데이터 베이스에서 쓰였던 식별자, 항목 표시, 코드, 서식 등을 분석하여
 
 전반 적인 틀을 정립한다. 
 여기서는 오라클의 HR Schema를 Mysql로 이관에서 쓰는것을 전제로 하겠다. 그렇기에 표준데이터 항목을 정의 하는 부분은 고려하지 않도록 하겠다. 
 
-1.1 공통원칙
+##1.1 공통원칙
 1) 관용화된 용어를 우선하여 사용한다
 2) 영문명(물리명) 전환시 발음식은 지양한다.
 3) 일반적인 명명 규칙시 띄어쓰기는 하지 않는다. 
 4) 한글명에 대해서는 복수의 영문명을 허용하지 않는다.(동음이의어 불가)
 5) 영문명에 대해서는 복수의 한글명을 허용한다.(이음동의어 허용)
 
-1.2 표준용어
+##1.2 표준용어
 1) '고객','회원' 등은 '회원'으로 사용한다.
 2) 적용 일자, 유효일자 등의 내용은 유효일자로 통일하여 사용한다.
 3) 용어는 띄어쓰기를 허용하지 않는다.
@@ -25,33 +25,66 @@
 6) 영문 약어의 경우 5자 이내로 제한한다.
 7) 필요시 단어와 단어의 구분은_(언더바)로 한다.
 
-1.3 표준 코드
+##1.3 표준 코드
 1) 코드성 속성은 맨 뒤에 '코드'를 붙인다 
 2) 코드는 알파벳과 문자열을 조합하여 일정한 길이로 구성한다.
 3) 코드 속성에는 기본적으로 3자리 문자열인 코드 도메인을 지정한다.
 4) 코드는 전체 모델 내에서 유일하게 정의한다. 
 
 
-1.4 표준 도메인
+##1.4 표준 도메인
 1) 표준 도메인은 기본적으로 숫자(Number), 문자열(String), 일시(Datetime)로 정의 한다. 
 2) 금액 도메인은 (18,0),(18,2)로 정의한다.
 3) 표준 도메인은 대표 속성을 기준으로 정의한다.
 4) 상세 도메인의 구별이 필요한 경우는 별도의 원칙으로 정의한다. 
 
 
-2. Oracle 에서 Mysql로의 데이터 표준화 1단계
+#2. Oracle 에서 Mysql로의 데이터 표준화 단계
 Oracle 에서 Mysql로의 데이터 표준화의 첫번째 기준은 Mysql의 명명법을 따르기로 한다.
 예를 들자면 Mysql의 각각의 테이블스페이스는 소문자로 표기되어 있고 ID에 해당하는 컬럼에는 다른 용어를 붙이지 않는다
 또한 컬럼명은 출력시의 별명(alias)로 명명될 경우를 제외하고는 영어사용을 우선시 한다.
 칼럼명의 통일은 다음과 같다. 
 
-Oracle의 경우 각각의 테이블 스페이스에 STUDENT_ID 로 표기되어있지만, Mysql의 경우 소문자 id로 통일되어 있고 각각의
-테이블 명이 id의 정보를 포함하고 있기에 여기서는 소문자 id로 통일하여 사용한다. 
+테이블 명은 파스칼 케이스로 첫글자만 대문자로 표시한다. 이외에는 소문자로 통일
 
-이름의 경우 소문자 name로 통일해서 사용한다. 
-주소의 경우 영문자 약어 'addr'로 통일한다
-생년월일의 경우 'birth'로 통일한다.
-전화번호의 경우 'tel'로 통일한다
+Oracle의 경우 각각의 테이블 스페이스에 STUDENT_ID 로 표기되어있지만, Mysql의 경우 소문자 id로 통일되어 있고 각각의
+테이블 명이 id의 정보를 포함하고 있기에. 여기서는 Oracle의 표기방식을 사용하나 영문은 소문자로 통일한다. 또한 id의 앞부분을 차지하는 
+용어는 테이블명을 따르기로 한다. 테이블 명을 따르는 영역은 ID 와 NAME으로 제한한다. (DEPARTMENT_ID > department_id/ DEPARTMENT_NAME > department_name)   
+
+##오라클 EMPLOYEE 테이블
+외래어 컬럼명과 테이블명을 소문자로 쓰기로 한다. (e.g., manger_id, demaprtment_id)
+id는 employee_id로 사용 (small int unsigned primary key not null)
+이름의 경우 컬럼명을 각각 first_name, last_name 으로 사용한다. 
 이메일의 경우 'email'로 통일한다.
-등록일의 경우 'regdt' 로 통일 한다.
-성별의 경우 'gender'로 통일한다. 
+전화번호의 경우 'tel'로 통일한다
+고용일 의 경우 'hire_date' 로 통일 한다.
+월급의 경우 'salary'로 통일한다.
+COMMISSION_PCT 는 commision_pct로 통일한다.
+MANAGER_ID는 manager_id로 통일한다.
+DEPARTMENT_ID는 department_id로 통일한다.
+
+##오라클 JOBS 테이블
+JOB_ID 는 job_id
+JOB_TITLE 는 job_name
+MIN_SALARY 는 min_salary
+MAX_SALARY 는 max_salary
+
+##오라클 DEPARTMENTS 테이블
+DEPARTMENT_ID 는 department_id
+DEPARTMENT_NAME 는 department_name
+MANAGER_ID 는 manager_id
+
+##오라클 JOB_HISTORY 테이블
+테이블 명은 job_history
+START_DATA 의 경우 'start_date' 로 통일한다.
+END_DATA 의 경우 'end_date'로 통일 한다. 
+
+
+##데이터 타입의 정립
+모든 id의 경우 smallint unsigned primary key not null(manager_id 와 department_id는 null)로 정의한다
+모든 이름 사람이름 부서이름 등등은 varchar(31)로 한다 nut null
+이메일은(email) varchar(45) null default 'email'
+전화번호(tel)는 varchar(31) null default 'tel'
+연봉(salary)과 관련된 요소는 smallint not null defalut 'salary'
+commision_pct 는 decimal(2,2), null default '0'
+모든 날짜와 관련된 요소들은 datetype으로 한다. not null 
